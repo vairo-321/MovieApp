@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/diaze/AndroidStudioProjects/MovieApp/app/src/main/res/drawable/gradient.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/diaze/AndroidStudioProjects/MovieApp/app/src/main/res/layout/activity_main.xml" value="0.209375" />
+        <entry key="..\:/Users/diaze/AndroidStudioProjects/MovieApp/app/src/main/res/layout/fragment_movie.xml" value="0.22" />
+        <entry key="..\:/Users/diaze/AndroidStudioProjects/MovieApp/app/src/main/res/layout/fragment_movie_detail.xml" value="0.33" />
       </map>
     </option>
   </component>
