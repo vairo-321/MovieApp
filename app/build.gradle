@@ -33,6 +33,7 @@ android {
     buildFeatures{
         viewBinding true
     }
+    namespace 'com.example.movieapp'
 }
 
 dependencies {
@@ -41,6 +42,11 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    //Viewodel y LiveData
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    //implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
