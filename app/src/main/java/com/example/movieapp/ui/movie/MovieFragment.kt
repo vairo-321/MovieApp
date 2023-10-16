@@ -10,8 +10,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import com.example.movieapp.R
 import com.example.movieapp.core.Resource
+import com.example.movieapp.data.local.AppDatabase
+import com.example.movieapp.data.local.LocalMovieDataSource
 import com.example.movieapp.data.model.Movie
-import com.example.movieapp.data.remote.MovieDataSource
+import com.example.movieapp.data.remote.RemoteMovieDataSource
 import com.example.movieapp.databinding.FragmentMovieBinding
 import com.example.movieapp.presentation.MovieViewModel
 import com.example.movieapp.presentation.MovieViewModelFactory
@@ -25,12 +27,21 @@ import com.example.movieapp.ui.movie.adapter.concat.UpComingConcatAdapter
 
 class MovieFragment : Fragment(R.layout.fragment_movie), MovieAdapter.OnMovieClickListener {
 
-    private lateinit var binding:FragmentMovieBinding
+    private lateinit var binding: FragmentMovieBinding
     private val viewModel by viewModels<MovieViewModel> {
-        MovieViewModelFactory(MovieRepositoryImpl(MovieDataSource(RetrofitClient.webservice)))
+        MovieViewModelFactory(
+            MovieRepositoryImpl(
+                RemoteMovieDataSource(RetrofitClient.webservice),
+                LocalMovieDataSource(
+                    AppDatabase.getDatabase(requireContext())
+                        .movieDao()
+                )
+            )
+        )
     }
 
-    private lateinit var concatAdapter:ConcatAdapter
+
+    private lateinit var concatAdapter: ConcatAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,7 +52,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie), MovieAdapter.OnMovieCli
 
         viewModel.fetchMainScreenMovie().observe(viewLifecycleOwner, Observer { result ->
 
-            when(result){
+            when (result) {
                 is Resource.Failure -> {
                     Log.d("Error", "${result.exception}")
                 }
@@ -49,9 +60,33 @@ class MovieFragment : Fragment(R.layout.fragment_movie), MovieAdapter.OnMovieCli
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
                     concatAdapter.apply {
-                        addAdapter(0, UpComingConcatAdapter(MovieAdapter(result.data.first.results, this@MovieFragment)))
-                        addAdapter(1, TopRatedConcatAdapter(MovieAdapter(result.data.second.results, this@MovieFragment)))
-                        addAdapter(2, PopularConcatAdapter(MovieAdapter(result.data.third.results, this@MovieFragment)))
+                        addAdapter(
+                            0,
+                            UpComingConcatAdapter(
+                                MovieAdapter(
+                                    result.data.first.results,
+                                    this@MovieFragment
+                                )
+                            )
+                        )
+                        addAdapter(
+                            1,
+                            TopRatedConcatAdapter(
+                                MovieAdapter(
+                                    result.data.second.results,
+                                    this@MovieFragment
+                                )
+                            )
+                        )
+                        addAdapter(
+                            2,
+                            PopularConcatAdapter(
+                                MovieAdapter(
+                                    result.data.third.results,
+                                    this@MovieFragment
+                                )
+                            )
+                        )
                     }
 
                     binding.rvMovies.adapter = concatAdapter
@@ -77,7 +112,8 @@ class MovieFragment : Fragment(R.layout.fragment_movie), MovieAdapter.OnMovieCli
             movie.overview,
             movie.title,
             movie.original_language,
-            movie.relese_date)
+            movie.relese_date
+        )
 
         findNavController().navigate(action)
     }

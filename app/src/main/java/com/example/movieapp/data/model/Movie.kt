@@ -5,13 +5,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 data class Movie(
+    val id: Int = -1,
     val adult: Boolean = false,
     val backdrop_path: String = "",
-    val gendre_ids: List<Int> = listOf(),
-    val id: Int = -1,
     val original_language: String = "",
     val original_title: String = "",
-    val overview: String ="",
+    val overview: String = "",
     val popularity: Double = -1.0,
     val poster_path: String = "",
     val relese_date: String = "",
@@ -19,6 +18,7 @@ data class Movie(
     val video: Boolean = false,
     val vote_average: Double = -1.0,
     val vote_count: Int = -1,
+    val movie_type: String = ""
 )
 
 //Room
@@ -36,7 +36,7 @@ data class MovieEntity(
     @ColumnInfo(name = "original_title")
     val original_title: String = "",
     @ColumnInfo(name = "overview")
-    val overview: String ="",
+    val overview: String = "",
     @ColumnInfo(name = "popularity")
     val popularity: Double = -1.0,
     @ColumnInfo(name = "poster_path")
@@ -51,8 +51,54 @@ data class MovieEntity(
     val vote_average: Double = -1.0,
     @ColumnInfo(name = "vote_count")
     val vote_count: Int = -1,
+    @ColumnInfo(name = "movie_type")
+    val movie_type: String = ""
 )
 
 data class MovieList(val results: List<Movie> = listOf())
+
+
+fun List<MovieEntity>.toMovieList(): MovieList {
+    val resultList = mutableListOf<Movie>()
+    this.forEach { movieEntyti ->
+        resultList.add(movieEntyti.toMovie())
+    }
+    return MovieList(resultList)
+}
+
+
+fun MovieEntity.toMovie(): Movie = Movie(
+    this.id,
+    this.adult,
+    this.backdrop_path,
+    this.original_language,
+    this.original_title,
+    overview,
+    popularity,
+    poster_path,
+    relese_date,
+    title,
+    video,
+    vote_average,
+    vote_count,
+    movie_type
+)
+
+fun Movie.toMovieEntity(movieType: String): MovieEntity = MovieEntity(
+    id,
+    adult,
+    backdrop_path,
+    original_language,
+    original_title,
+    overview,
+    popularity,
+    poster_path,
+    relese_date,
+    title,
+    video,
+    vote_average,
+    vote_count,
+    movie_type = movieType
+)
 
 

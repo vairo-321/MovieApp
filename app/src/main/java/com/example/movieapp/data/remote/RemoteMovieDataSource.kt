@@ -4,7 +4,7 @@ import com.example.movieapp.application.AppConstants
 import com.example.movieapp.data.model.*
 import com.example.movieapp.repository.IWebService
 
-class MovieDataSource (private val webservice: IWebService ){
+class RemoteMovieDataSource (private val webservice: IWebService ){
 
     suspend fun getTopRatedMovies(): MovieList = webservice.getTopRatedMovies(AppConstants.API_KEY)
 
