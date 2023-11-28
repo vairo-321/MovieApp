@@ -12,36 +12,36 @@ class MovieRepositoryImpl(
 ) : MovieRepository {
 
     override suspend fun getUpcomingMovies(): MovieList {
-        return if (InternetCheck.isNetworkAvailable()) {
-            remotDataSource.getUpcomingMovies().results.forEach { movie ->
-                dataSourceLocal.saveMovie(movie.toMovieEntity("upcoming"))
+            return if (InternetCheck.isNetworkAvailable()) {
+                remotDataSource.getUpcomingMovies().results.forEach { movie ->
+                    dataSourceLocal.saveMovie(movie.toMovieEntity("upcoming"))
+                }
+                return dataSourceLocal.getUpcomingMovies()
+            } else {
+                return dataSourceLocal.getUpcomingMovies()
             }
-            return dataSourceLocal.getUpcomingMovies()
-        } else {
-            return dataSourceLocal.getUpcomingMovies()
-        }
     }
 
     override suspend fun getPopularMovies(): MovieList {
-        return if (InternetCheck.isNetworkAvailable()) {
-            remotDataSource.getPopularMovies().results.forEach { movie ->
-                dataSourceLocal.saveMovie(movie.toMovieEntity("popular"))
+            return if (InternetCheck.isNetworkAvailable()) {
+                remotDataSource.getPopularMovies().results.forEach { movie ->
+                    dataSourceLocal.saveMovie( movie.toMovieEntity("popular"))
+                }
+                return dataSourceLocal.getPopularMovies()
+            } else {
+                return dataSourceLocal.getPopularMovies()
             }
-            return dataSourceLocal.getPopularMovies()
-        } else {
-            return dataSourceLocal.getPopularMovies()
-        }
     }
 
     override suspend fun getTopRatedMovie(): MovieList {
-        return if (InternetCheck.isNetworkAvailable()) {
-            remotDataSource.getTopRatedMovies().results.forEach { movie ->
-                dataSourceLocal.saveMovie(movie.toMovieEntity("topRated"))
+            return if (InternetCheck.isNetworkAvailable()) {
+                remotDataSource.getTopRatedMovies().results.forEach { movie ->
+                    dataSourceLocal.saveMovie(movie.toMovieEntity("topRated"))
+                }
+                return dataSourceLocal.getTopRatedMovies()
+            } else {
+                return dataSourceLocal.getTopRatedMovies()
             }
-            return dataSourceLocal.getTopRatedMovies()
-        } else {
-            return dataSourceLocal.getTopRatedMovies()
-        }
     }
 
 }

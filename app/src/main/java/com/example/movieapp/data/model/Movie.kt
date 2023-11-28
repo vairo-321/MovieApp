@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+
+
 data class Movie(
     val id: Int = -1,
     val adult: Boolean = false,
@@ -73,31 +75,31 @@ fun MovieEntity.toMovie(): Movie = Movie(
     this.backdrop_path,
     this.original_language,
     this.original_title,
-    overview,
-    popularity,
-    poster_path,
-    relese_date,
-    title,
-    video,
-    vote_average,
-    vote_count,
-    movie_type
+    this.overview,
+    this.popularity,
+    this.poster_path,
+    this.relese_date,
+    this.title,
+    this.video,
+    this.vote_average,
+    this.vote_count,
+    this.movie_type
 )
 
 fun Movie.toMovieEntity(movieType: String): MovieEntity = MovieEntity(
-    id,
-    adult,
-    backdrop_path,
-    original_language,
-    original_title,
-    overview,
-    popularity,
-    poster_path,
-    relese_date,
-    title,
-    video,
-    vote_average,
-    vote_count,
+    this.id,
+    this.adult,
+    this.backdrop_path ?: "/tC78Pck2YCsUAtEdZwuHYUFYtOj.jpg",
+    this.original_language,
+    this.original_title,
+    this.overview,
+    this.popularity,
+    this.poster_path,
+    this.relese_date,
+    this.title,
+    this.video,
+    this.vote_average,
+    this.vote_count,
     movie_type = movieType
 )
 
